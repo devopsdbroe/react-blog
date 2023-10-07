@@ -1,0 +1,23 @@
+.create-post-form {
+	margin-bottom: 30px;
+}
+
+.create-post-form input,
+.create-post-form textarea {
+	width: 100%;
+	padding: 10px;
+	margin: 10px auto;
+	box-sizing: border-box;
+}
+
+.create-post-form button {
+	background-color: #4caf50;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+}
+
+.create-post-form button:hover {
+	background-color: #45a049;
+}
