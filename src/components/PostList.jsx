@@ -7,10 +7,6 @@ import '../css/PostList.css';
 const PostList = () => {
 	const [posts, setPosts] = useState([]);
 
-	// useEffect(() => {
-	// 	setPosts([{ id: '1', title: 'Test title', body: 'Test body' }]);
-	// }, []);
-
 	useEffect(() => {
 		const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
 		const unsubscribe = onSnapshot(

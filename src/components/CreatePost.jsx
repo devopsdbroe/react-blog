@@ -18,7 +18,7 @@ const CreatePost = () => {
 			setTitle('');
 			setBody('');
 		} catch (error) {
-			console.error('Error adding comment: ', error);
+			console.error('Error adding post: ', error);
 		}
 	};
 

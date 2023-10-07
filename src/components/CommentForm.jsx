@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
+import { collection, addDoc, serverTimestamp } from '@firebase/firestore';
+import { db } from '../auth/firebase';
 
-const CommentForm = ({ addComment }) => {
+const CommentForm = ({ postId }) => {
 	const [comment, setComment] = useState('');
 
-	const handleSubmit = (e) => {
+	const addComment = async (e) => {
 		e.preventDefault();
-		addComment(comment);
-		setComment('');
+		try {
+			await addDoc(collection(db, 'comments'), {
+				comment,
+				postId,
+				timestamp: serverTimestamp(),
+			});
+			setComment('');
+		} catch (error) {
+			console.error('Error adding comment: ', error);
+		}
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={addComment}>
 			<input
 				type='text'
 				value={comment}
