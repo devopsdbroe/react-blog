@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import '../css/CreatePost.css';
+import { db } from '../auth/firebase';
+import { collection, addDoc, serverTimestamp } from '@firebase/firestore';
 
-const CreatePost = ({ addPost }) => {
+const CreatePost = () => {
 	const [title, setTitle] = useState('');
 	const [body, setBody] = useState('');
 
-	const handleSubmit = (e) => {
+	const addPost = async (e) => {
 		e.preventDefault();
-		addPost({ id: Date.now(), title, body });
-		setTitle('');
-		setBody('');
+		try {
+			await addDoc(collection(db, 'posts'), {
+				title,
+				body,
+				timestamp: serverTimestamp(),
+			});
+			setTitle('');
+			setBody('');
+		} catch (error) {
+			console.error('Error adding comment: ', error);
+		}
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className='create-post-form'>
+		<form onSubmit={addPost} className='create-post-form'>
 			<input
 				type='text'
 				value={title}
