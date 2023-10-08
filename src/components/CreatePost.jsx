@@ -1,42 +1,53 @@
 import React, { useState } from 'react';
+import { addPost } from '../utils/firestoreOperations';
 import '../css/CreatePost.css';
-import { db } from '../auth/firebase';
-import { collection, addDoc, serverTimestamp } from '@firebase/firestore';
 
 const CreatePost = () => {
-	const [title, setTitle] = useState('');
-	const [body, setBody] = useState('');
+	const [post, setPost] = useState({
+		title: '',
+		body: '',
+	});
 
-	const addPost = async (e) => {
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+
+		setPost((prevPost) => ({ ...prevPost, [name]: value }));
+	};
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await addDoc(collection(db, 'posts'), {
-				title,
-				body,
-				timestamp: serverTimestamp(),
-			});
-			setTitle('');
-			setBody('');
+			await addPost(post);
+			setPost({ title: '', body: '' });
 		} catch (error) {
 			console.error('Error adding post: ', error);
 		}
 	};
 
 	return (
-		<form onSubmit={addPost} className='create-post-form'>
-			<input
-				type='text'
-				value={title}
-				onChange={(e) => setTitle(e.target.value)}
-				placeholder='Title'
-				required
-			/>
-			<textarea
-				value={body}
-				onChange={(e) => setBody(e.target.value)}
-				placeholder='Write your post...'
-				required
-			></textarea>
+		<form onSubmit={handleSubmit}>
+			<div>
+				<label htmlFor='title'>Title: </label>
+				<input
+					type='text'
+					placeholder='Title'
+					id='title'
+					name='title'
+					value={post.title}
+					onChange={handleChange}
+				/>
+			</div>
+			<div>
+				<label htmlFor='body'>Body: </label>
+				<input
+					type='text'
+					placeholder='Write your post...'
+					id='body'
+					name='body'
+					value={post.body}
+					onChange={handleChange}
+				/>
+			</div>
 			<button type='submit'>Post</button>
 		</form>
 	);

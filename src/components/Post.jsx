@@ -37,6 +37,15 @@ const Post = ({ post }) => {
 		return () => unsubscribe();
 	}, [post.id]);
 
+	handleDelete = async () => {
+		try {
+			await deletePost(post.id);
+			console.log('post deleted successfully!');
+		} catch (error) {
+			console.error('Error deleting post: ', error);
+		}
+	};
+
 	return (
 		<div className='post'>
 			<h2>{post.title}</h2>
@@ -47,6 +56,7 @@ const Post = ({ post }) => {
 					<li key={comment.id}>{comment.comment}</li>
 				))}
 			</ul>
+			<button onClick={handleDelete}>Delete</button>
 		</div>
 	);
 };
