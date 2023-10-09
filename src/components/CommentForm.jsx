@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import { addComment } from '../utils/firestoreOperations';
+import React, { useState } from "react";
+import { addComment } from "../utils/firestoreOperations";
 
 const CommentForm = ({ postId }) => {
-	const [comment, setComment] = useState('');
+	const [comment, setComment] = useState("");
 	const [error, setError] = useState(null);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			await addComment({ comment, postId });
-			setComment('');
+			setComment("");
 		} catch (error) {
-			console.error('Error adding comment: ', error);
+			console.error("Error adding comment: ", error);
 			setError(error.message);
 		}
 	};
 
 	return (
 		<>
-			{error && <p className='error'>{error}</p>}
+			{error && <p className="error">{error}</p>}
 			<form onSubmit={handleSubmit}>
 				<input
-					type='text'
-					placeholder='Add a comment'
+					type="text"
+					placeholder="Add a comment"
 					value={comment}
 					onChange={(e) => setComment(e.target.value)}
 				/>
-				<button type='submit'>Submit</button>
+				<button type="submit">Submit</button>
 			</form>
 		</>
 	);

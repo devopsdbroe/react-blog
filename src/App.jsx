@@ -1,10 +1,10 @@
-import './App.css';
-import CreatePost from './components/CreatePost';
-import PostList from './components/PostList';
+import "./App.css";
+import CreatePost from "./components/CreatePost";
+import PostList from "./components/PostList";
 
 function App() {
 	return (
-		<div className='App'>
+		<div className="App">
 			<h1>React Blog</h1>
 			<CreatePost />
 			<PostList />

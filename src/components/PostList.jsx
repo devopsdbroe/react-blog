@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Post from './Post';
-import { collection, query, orderBy, onSnapshot } from '@firebase/firestore';
-import { db } from '../auth/firebase';
-import '../css/PostList.css';
+import React, { useState, useEffect } from "react";
+import Post from "./Post";
+import { collection, query, orderBy, onSnapshot } from "@firebase/firestore";
+import { db } from "../auth/firebase";
+import "../css/PostList.css";
 
 const PostList = () => {
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
-		const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
+		const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
 		const unsubscribe = onSnapshot(
 			q,
 			(snapshot) => {
@@ -19,7 +19,7 @@ const PostList = () => {
 				setPosts(fetchedPosts);
 			},
 			(error) => {
-				console.error('Error fetching posts: ', error);
+				console.error("Error fetching posts: ", error);
 			}
 		);
 
@@ -36,7 +36,7 @@ const PostList = () => {
 	};
 
 	return (
-		<div className='post-list'>
+		<div className="post-list">
 			{posts.map((post) => (
 				<Post
 					key={post.id}

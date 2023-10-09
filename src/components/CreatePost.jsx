@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { addPost } from '../utils/firestoreOperations';
-import '../css/CreatePost.css';
+import React, { useState } from "react";
+import { addPost } from "../utils/firestoreOperations";
+import "../css/CreatePost.css";
 
 const CreatePost = () => {
 	const [post, setPost] = useState({
-		title: '',
-		body: '',
+		title: "",
+		body: "",
 	});
 	const [error, setError] = useState(null);
 
@@ -19,40 +19,40 @@ const CreatePost = () => {
 		e.preventDefault();
 		try {
 			await addPost(post);
-			setPost({ title: '', body: '' });
+			setPost({ title: "", body: "" });
 		} catch (error) {
-			console.error('Error adding post: ', error);
+			console.error("Error adding post: ", error);
 			setError(error.message);
 		}
 	};
 
 	return (
 		<>
-			{error && <p className='error'>{error}</p>}
-			<form onSubmit={handleSubmit} className='create-post-form'>
+			{error && <p className="error">{error}</p>}
+			<form onSubmit={handleSubmit} className="create-post-form">
 				<div>
-					<label htmlFor='title'>Title: </label>
+					<label htmlFor="title">Title: </label>
 					<input
-						type='text'
-						placeholder='Title'
-						id='title'
-						name='title'
+						type="text"
+						placeholder="Title"
+						id="title"
+						name="title"
 						value={post.title}
 						onChange={handleChange}
 					/>
 				</div>
 				<div>
-					<label htmlFor='body'>Body: </label>
+					<label htmlFor="body">Body: </label>
 					<textarea
-						type='text'
-						placeholder='Write your post...'
-						id='body'
-						name='body'
+						type="text"
+						placeholder="Write your post..."
+						id="body"
+						name="body"
 						value={post.body}
 						onChange={handleChange}
 					/>
 				</div>
-				<button type='submit'>Post</button>
+				<button type="submit">Post</button>
 			</form>
 		</>
 	);
