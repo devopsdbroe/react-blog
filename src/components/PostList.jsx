@@ -26,10 +26,15 @@ const PostList = () => {
 		return () => unsubscribe();
 	}, []);
 
+	const handlePostDeleted = (deletedPostId) => {
+		const updatedPosts = posts.filter((post) => post.id !== deletedPostId);
+		setPosts(updatedPosts);
+	};
+
 	return (
 		<div className='post-list'>
 			{posts.map((post) => (
-				<Post key={post.id} post={post} />
+				<Post key={post.id} post={post} onPostDeleted={handlePostDeleted} />
 			))}
 		</div>
 	);

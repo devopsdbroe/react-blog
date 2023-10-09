@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
+import { deletePost } from '../utils/firestoreOperations';
 import '../css/Post.css';
 import {
 	collection,
@@ -10,7 +11,7 @@ import {
 } from '@firebase/firestore';
 import { db } from '../auth/firebase';
 
-const Post = ({ post }) => {
+const Post = ({ post, onPostDeleted }) => {
 	const [comments, setComments] = useState([]);
 
 	useEffect(() => {
@@ -37,26 +38,27 @@ const Post = ({ post }) => {
 		return () => unsubscribe();
 	}, [post.id]);
 
-	// handleDelete = async () => {
-	// 	try {
-	// 		await deletePost(post.id);
-	// 		console.log('post deleted successfully!');
-	// 	} catch (error) {
-	// 		console.error('Error deleting post: ', error);
-	// 	}
-	// };
+	const handleDelete = async (postId) => {
+		try {
+			await deletePost(postId);
+			console.log('Post deleted successfully!');
+			onPostDeleted(postId);
+		} catch (error) {
+			console.error('Error deleting post: ', error);
+		}
+	};
 
 	return (
 		<div className='post'>
 			<h2>{post.title}</h2>
 			<p>{post.body}</p>
+			<button onClick={() => handleDelete(post.id)}>Delete</button>
 			<CommentForm postId={post.id} />
 			<ul>
 				{comments.map((comment) => (
 					<li key={comment.id}>{comment.comment}</li>
 				))}
 			</ul>
-			{/* <button onClick={handleDelete}>Delete</button> */}
 		</div>
 	);
 };
