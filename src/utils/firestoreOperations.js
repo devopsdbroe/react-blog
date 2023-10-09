@@ -4,6 +4,9 @@ import {
 	serverTimestamp,
 	deleteDoc,
 	doc,
+	query,
+	where,
+	getDocs,
 } from '@firebase/firestore';
 import { db } from '../auth/firebase';
 
@@ -19,13 +22,20 @@ export const addPost = async (postData) => {
 	}
 };
 
-export const deletePost = async (postId) => {
+export const deletePostAndComments = async (postId) => {
 	try {
-		console.log('Deleting post with ID: ', postId);
+		const commentsCollection = collection(db, 'comments');
+		const q = query(commentsCollection, where('postId', '==', postId));
+		const querySnapshot = await getDocs(q);
+
+		for (const doc of querySnapshot.docs) {
+			await deleteDoc(doc.ref);
+		}
+
 		const postRef = doc(db, 'posts', postId);
 		await deleteDoc(postRef);
 	} catch (error) {
-		console.error('Error deleting post: ', error);
+		console.error('Error deleting post and/or comments: ', error);
 		throw error;
 	}
 };

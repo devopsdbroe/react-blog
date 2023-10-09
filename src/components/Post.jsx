@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
-import { deletePost } from '../utils/firestoreOperations';
+import { deletePostAndComments } from '../utils/firestoreOperations';
 import '../css/Post.css';
 import {
 	collection,
@@ -40,11 +40,11 @@ const Post = ({ post, onPostDeleted }) => {
 
 	const handleDelete = async (postId) => {
 		try {
-			await deletePost(postId);
-			console.log('Post deleted successfully!');
+			await deletePostAndComments(postId);
+			console.log('Post and comments deleted successfully!');
 			onPostDeleted(postId);
 		} catch (error) {
-			console.error('Error deleting post: ', error);
+			console.error('Error deleting post and/or comments: ', error);
 		}
 	};
 
