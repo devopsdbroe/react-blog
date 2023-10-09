@@ -11,7 +11,7 @@ import {
 } from '@firebase/firestore';
 import { db } from '../auth/firebase';
 
-const Post = ({ post, onPostDeleted }) => {
+const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 	const [comments, setComments] = useState([]);
 
 	useEffect(() => {
@@ -38,13 +38,19 @@ const Post = ({ post, onPostDeleted }) => {
 		return () => unsubscribe();
 	}, [post.id]);
 
-	const handleDelete = async (postId) => {
+	const handleDelete = async () => {
+		// Optimistically remove post from UI
+		onPostDeleted(post.id);
+
 		try {
-			await deletePostAndComments(postId);
+			await deletePostAndComments(post.id);
 			console.log('Post and comments deleted successfully!');
-			onPostDeleted(postId);
 		} catch (error) {
 			console.error('Error deleting post and/or comments: ', error);
+			alert("Sorry, we couldn't delete the post. Please try again later.");
+
+			// If deletion fails, add post back to UI
+			onPostDeleteFailure(post);
 		}
 	};
 
@@ -52,7 +58,7 @@ const Post = ({ post, onPostDeleted }) => {
 		<div className='post'>
 			<h2>{post.title}</h2>
 			<p>{post.body}</p>
-			<button onClick={() => handleDelete(post.id)}>Delete</button>
+			<button onClick={handleDelete}>Delete</button>
 			<CommentForm postId={post.id} />
 			<ul>
 				{comments.map((comment) => (

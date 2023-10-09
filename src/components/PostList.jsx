@@ -31,10 +31,19 @@ const PostList = () => {
 		setPosts(updatedPosts);
 	};
 
+	const handlePostDeleteFailure = (failedPost) => {
+		setPosts((prevPosts) => [failedPost, ...prevPosts]);
+	};
+
 	return (
 		<div className='post-list'>
 			{posts.map((post) => (
-				<Post key={post.id} post={post} onPostDeleted={handlePostDeleted} />
+				<Post
+					key={post.id}
+					post={post}
+					onPostDeleted={handlePostDeleted}
+					onPostDeleteFailure={handlePostDeleteFailure}
+				/>
 			))}
 		</div>
 	);
