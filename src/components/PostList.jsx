@@ -26,11 +26,13 @@ const PostList = () => {
 		return () => unsubscribe();
 	}, []);
 
+	// Logic to rerender post list after a post is deleted
 	const handlePostDeleted = (deletedPostId) => {
 		const updatedPosts = posts.filter((post) => post.id !== deletedPostId);
 		setPosts(updatedPosts);
 	};
 
+	// Logic in event of post deletion failure - rerenders original list
 	const handlePostDeleteFailure = (failedPost) => {
 		setPosts((prevPosts) => [failedPost, ...prevPosts]);
 	};

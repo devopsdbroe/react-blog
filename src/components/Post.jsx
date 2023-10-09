@@ -15,6 +15,7 @@ import { db } from "../auth/firebase";
 const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 	const [comments, setComments] = useState([]);
 
+	// useEffect to fetch comments from Firebase DB
 	useEffect(() => {
 		const q = query(
 			collection(db, "comments"),
@@ -39,7 +40,9 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 		return () => unsubscribe();
 	}, [post.id]);
 
+	// Logic to delete post (and comments inside of post)
 	const handleDeletePost = async () => {
+		// Optimistically update UI to remove post
 		onPostDeleted(post.id);
 
 		try {
@@ -49,10 +52,12 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 			console.error("Error deleting post and/or comments: ", error);
 			alert("Sorry, we couldn't delete the post. Please try again later.");
 
+			// Run in event that deletion fails
 			onPostDeleteFailure(post);
 		}
 	};
 
+	// Logic to rerender comments are a comment is deleted
 	const handleDeleteComment = (commentId) => {
 		setComments((prevComments) =>
 			prevComments.filter((comment) => comment.id !== commentId)
