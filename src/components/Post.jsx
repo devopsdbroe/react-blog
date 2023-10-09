@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
-import {
-	deleteComment,
-	deletePostAndComments,
-} from "../utils/firestoreOperations";
+import { deletePostAndComments } from "../utils/firestoreOperations";
 import "../css/Post.css";
 import {
 	collection,
@@ -42,8 +39,7 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 		return () => unsubscribe();
 	}, [post.id]);
 
-	const handleDelete = async () => {
-		// Optimistically remove post and comment(s) from UI
+	const handleDeletePost = async () => {
 		onPostDeleted(post.id);
 
 		try {
@@ -53,37 +49,21 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 			console.error("Error deleting post and/or comments: ", error);
 			alert("Sorry, we couldn't delete the post. Please try again later.");
 
-			// If post back in event of failure
 			onPostDeleteFailure(post);
 		}
 	};
 
-	const handleDeleteComment = async (commentId) => {
-		if (window.confirm("Are you sure you want to delete this comment?")) {
-			// Optimistically remove comment from UI
-			setComments((prevComments) =>
-				prevComments.filter((comment) => comment.id !== commentId)
-			);
-
-			try {
-				await deleteComment(commentId);
-				console.log("Comment deleted successfully!");
-			} catch (error) {
-				console.error("Error deleting comment: ", error);
-				// Add comment back in event of failure
-				setComments((prevComments) => [
-					...prevComments,
-					comments.find((comment) => comment.id === commentId),
-				]);
-			}
-		}
+	const handleDeleteComment = (commentId) => {
+		setComments((prevComments) =>
+			prevComments.filter((comment) => comment.id !== commentId)
+		);
 	};
 
 	return (
 		<div className="post">
 			<h2>{post.title}</h2>
 			<p>{post.body}</p>
-			<button onClick={handleDelete}>Delete</button>
+			<button onClick={handleDeletePost}>Delete</button>
 			<CommentForm postId={post.id} />
 			<ul>
 				{comments.map((comment) => (

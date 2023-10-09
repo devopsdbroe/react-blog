@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { addComment } from "../utils/firestoreOperations";
 
 const CommentForm = ({ postId }) => {
-	const [comment, setComment] = useState("");
+	const [text, setText] = useState("");
 	const [error, setError] = useState(null);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await addComment({ comment, postId });
-			setComment("");
+			await addComment({ text, postId });
+			setText("");
 		} catch (error) {
 			console.error("Error adding comment: ", error);
 			setError(error.message);
@@ -23,8 +23,8 @@ const CommentForm = ({ postId }) => {
 				<input
 					type="text"
 					placeholder="Add a comment"
-					value={comment}
-					onChange={(e) => setComment(e.target.value)}
+					value={text}
+					onChange={(e) => setText(e.target.value)}
 				/>
 				<button type="submit">Submit</button>
 			</form>

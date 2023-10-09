@@ -1,15 +1,22 @@
 import React from "react";
+import { deleteComment } from "../utils/firestoreOperations";
 
 const comment = ({ comment, onDeleteComment }) => {
-	const handleDelete = () => {
+	const handleDelete = async () => {
 		if (window.confirm("Are you sure you want to delete this comment?")) {
-			onDeleteComment(comment.id);
+			try {
+				await deleteComment(comment.id);
+				onDeleteComment(comment.id);
+				console.log("Comment deleted successfully!");
+			} catch (error) {
+				console.error("Error deleting comment: ", error);
+			}
 		}
 	};
 
 	return (
 		<li>
-			<p>{comment.comment}</p>
+			<p>{comment.text}</p>
 			<button onClick={handleDelete}>Delete</button>
 		</li>
 	);
