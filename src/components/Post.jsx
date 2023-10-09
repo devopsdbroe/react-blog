@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
-import { deletePostAndComments } from '../utils/firestoreOperations';
+import { deleteComment, deletePostAndComments } from '../utils/firestoreOperations';
 import '../css/Post.css';
 import {
 	collection,
@@ -54,6 +54,15 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 		}
 	};
 
+	const handleDeleteComment = async (index) => {
+		try {
+			await deleteComment(index);
+			console.log("Comment deleted successfully!");
+		} catch (error) {
+			console.error("Error deleting comment: ", error);
+		}
+	} 
+
 	return (
 		<div className='post'>
 			<h2>{post.title}</h2>
@@ -62,7 +71,9 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 			<CommentForm postId={post.id} />
 			<ul>
 				{comments.map((comment) => (
-					<li key={comment.id}>{comment.comment}</li>
+					<li key={comment.id}>{comment.comment}
+					<button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+					</li>
 				))}
 			</ul>
 		</div>

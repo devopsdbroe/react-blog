@@ -51,3 +51,13 @@ export const addComment = async (commentData) => {
 		throw error;
 	}
 };
+
+export const deleteComment = async (commentId) => {
+	try {
+		const commentRef = doc(db, 'comments', commentId);
+		deleteDoc(commentRef);
+	} catch (error) {
+		console.error("Error deleting comment: ", error);
+		throw error;
+	}
+}
