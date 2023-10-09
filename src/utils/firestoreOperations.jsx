@@ -55,7 +55,7 @@ export const addComment = async (commentData) => {
 export const deleteComment = async (commentId) => {
 	try {
 		const commentRef = doc(db, 'comments', commentId);
-		deleteDoc(commentRef);
+		await deleteDoc(commentRef);
 	} catch (error) {
 		console.error("Error deleting comment: ", error);
 		throw error;
