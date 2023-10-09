@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
+import Comment from "./Comment";
 import {
 	deleteComment,
 	deletePostAndComments,
@@ -86,12 +87,11 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 			<CommentForm postId={post.id} />
 			<ul>
 				{comments.map((comment) => (
-					<li key={comment.id}>
-						<p>{comment.comment}</p>
-						<button onClick={() => handleDeleteComment(comment.id)}>
-							Delete
-						</button>
-					</li>
+					<Comment
+						key={comment.id}
+						comment={comment}
+						onDeleteComment={handleDeleteComment}
+					/>
 				))}
 			</ul>
 		</div>
