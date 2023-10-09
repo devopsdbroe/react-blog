@@ -39,7 +39,7 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 	}, [post.id]);
 
 	const handleDelete = async () => {
-		// Optimistically remove post from UI
+		// Optimistically remove post and comment(s) from UI
 		onPostDeleted(post.id);
 
 		try {
@@ -49,17 +49,25 @@ const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 			console.error('Error deleting post and/or comments: ', error);
 			alert("Sorry, we couldn't delete the post. Please try again later.");
 
-			// If deletion fails, add post back to UI
+			// If post back in event of failure
 			onPostDeleteFailure(post);
 		}
 	};
 
-	const handleDeleteComment = async (index) => {
-		try {
-			await deleteComment(index);
-			console.log("Comment deleted successfully!");
-		} catch (error) {
-			console.error("Error deleting comment: ", error);
+	const handleDeleteComment = async (commentId) => {
+		if (window.confirm("Are you sure you want to delete this comment?")) {
+			
+			// Optimistically remove comment from UI
+			setComments(prevComments => prevComments.filter(comment => comment.id !== commentId));
+			
+			try {
+				await deleteComment(commentId);
+				console.log("Comment deleted successfully!");
+			} catch (error) {
+				console.error("Error deleting comment: ", error);
+				// Add comment back in event of failure
+				setComments(prevComments => [...prevComments, comments.find(comment => comment.id === commentId)])
+			}
 		}
 	} 
 
