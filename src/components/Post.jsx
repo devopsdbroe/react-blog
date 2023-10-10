@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import CommentForm from "./CommentForm";
-import Comment from "./Comment";
-import { deletePostAndComments } from "../utils/firestoreOperations";
-import "../css/Post.css";
 import {
 	collection,
+	onSnapshot,
+	orderBy,
 	query,
 	where,
-	orderBy,
-	onSnapshot,
 } from "@firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { db } from "../auth/firebase";
+import "../css/Post.css";
+import { deletePostAndComments } from "../utils/firestoreOperations";
+import Comment from "./Comment";
+import CommentForm from "./CommentForm";
 
 const Post = ({ post, onPostDeleted, onPostDeleteFailure }) => {
 	const [comments, setComments] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { addPost } from "../utils/firestoreOperations";
 import "../css/CreatePost.css";
+import { addPost } from "../utils/firestoreOperations";
 
 const CreatePost = () => {
 	const [post, setPost] = useState({

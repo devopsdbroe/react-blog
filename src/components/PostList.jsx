@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Post from "./Post";
-import { collection, query, orderBy, onSnapshot } from "@firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "@firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { db } from "../auth/firebase";
 import "../css/PostList.css";
+import Post from "./Post";
 
 const PostList = () => {
 	const [posts, setPosts] = useState([]);
