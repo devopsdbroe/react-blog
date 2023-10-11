@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { addComment } from "../utils/firestoreOperations";
 
 const CommentForm = ({ postId }) => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { deleteComment } from "../utils/firestoreOperations";
 
 const comment = ({ comment, onDeleteComment }) => {

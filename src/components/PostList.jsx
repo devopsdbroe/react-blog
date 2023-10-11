@@ -1,5 +1,5 @@
 import { collection, onSnapshot, orderBy, query } from "@firebase/firestore";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "../auth/firebase";
 import "../css/PostList.css";
 import Post from "./Post";

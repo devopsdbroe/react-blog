@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../css/CreatePost.css";
 import { addPost } from "../utils/firestoreOperations";
 
